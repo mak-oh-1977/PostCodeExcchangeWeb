@@ -1,28 +1,69 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace PostCodeExchangeWeb.Controllers
 {
+
+    
     public class HomeController : Controller
     {
-        public ActionResult Index()
+        private PostCode db = new PostCode();
+
+        public class Query
+        {
+            public string address { get; set; }
+        }
+        
+
+
+        public ActionResult Index(Query q)
+        {
+            Debug.WriteLine(q.address);
+
+            if (!string.IsNullOrEmpty(q.address))
+            {
+                using (var context = new PostCode())
+                {
+                    int maxcd = context.pref.Max(x => x.prefcd);
+                    
+                    // Addした段階ではSql文はDBに発行されない
+                    context.pref.Add(new pref
+                    {
+                        prefcd = maxcd + 1,
+                        name = q.address
+                    });
+
+                    // SaveChangesが呼び出された段階で初めてInsert文が発行される
+                    context.SaveChanges();
+                }
+
+            }
+
+            return View();
+        }
+
+        [HttpGet]
+        public ActionResult Upload()
         {
             return View();
         }
 
-        public ActionResult About()
+        [HttpPost]
+        public ActionResult Upload(HttpPostedFileWrapper uploadFile)
         {
-            ViewBag.Message = "Your application description page.";
+            if (uploadFile != null)
+            {
+                uploadFile.SaveAs(Server.MapPath("~/uploads/") + uploadFile.FileName);
+            }
+            else
+            {
 
-            return View();
-        }
-
-        public ActionResult Contact()
-        {
-            ViewBag.Message = "Your contact page.";
+            }
 
             return View();
         }

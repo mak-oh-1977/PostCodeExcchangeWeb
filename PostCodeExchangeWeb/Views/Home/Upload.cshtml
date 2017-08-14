@@ -1,0 +1,29 @@
+﻿
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Upload</title>
+</head>
+<body>
+    <h2>ファイルアップロードのサンプル</h2>
+
+    @using (Html.BeginForm("Upload", "Home", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        <input type="file" name="uploadFile" />
+        <input type="submit" />
+    }
+    @using (Html.BeginForm(
+                                          "Upload",      // アクション名
+                                          "",    // コントローラー名
+                                          new {  charset = "utf8" },        // ルートパラメーター
+                                          FormMethod.Post,                               // HTTP メソッド
+                                          new { enctype = "multipart/form-data" } // その他の属性
+                                        ))
+    {
+        <input type="submit" value="読み込み" />
+
+    }
+</body>
+</html>
