@@ -11,7 +11,9 @@ namespace PostCodeExchangeWeb
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int prefcd { get; set; }
+        public int Id { get; set; }
+
+        public int? prefcd { get; set; }
 
         [StringLength(50)]
         public string pref { get; set; }

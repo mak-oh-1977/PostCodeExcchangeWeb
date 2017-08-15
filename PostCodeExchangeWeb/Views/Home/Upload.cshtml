@@ -15,14 +15,14 @@
         <input type="submit" />
     }
     @using (Html.BeginForm(
-                                          "Upload",      // アクション名
+                                          "Import",      // アクション名
                                           "",    // コントローラー名
                                           new {  charset = "utf8" },        // ルートパラメーター
                                           FormMethod.Post,                               // HTTP メソッド
                                           new { enctype = "multipart/form-data" } // その他の属性
                                         ))
     {
-        <input type="submit" value="読み込み" />
+        <input type="submit" value="取り込み" />
 
     }
 </body>
