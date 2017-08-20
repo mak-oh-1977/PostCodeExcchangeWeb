@@ -10,7 +10,6 @@ namespace PostCodeExchangeWeb
     public partial class list
     {
         [Key]
-        [DatabaseGenerated(DatabaseGeneratedOption.None)]
         public int Id { get; set; }
 
         public int? prefcd { get; set; }

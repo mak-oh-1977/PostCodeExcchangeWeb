@@ -9,6 +9,7 @@ namespace PostCodeExchangeWeb
     [Table("city")]
     public partial class city
     {
+
         public int prefcd { get; set; }
 
         [StringLength(50)]
