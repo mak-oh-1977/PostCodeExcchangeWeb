@@ -161,6 +161,7 @@
     </Compile>
     <Compile Include="Models\list.cs" />
     <Compile Include="Models\PostCode.cs" />
+    <Compile Include="Models\PostCodeData.cs" />
     <Compile Include="Models\pref.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
