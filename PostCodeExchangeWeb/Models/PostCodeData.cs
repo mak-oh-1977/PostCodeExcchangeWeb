@@ -89,19 +89,23 @@ namespace PostCodeExchangeWeb.Models
         {
             int prefcd;
 
-            address = FindPref(address, out prefcd);
+            var ret = FindPref(address, out prefcd);
+            if (ret != "")
+                address = ret;
 
             int citycd;
-            address = FindCity(address, out citycd, prefcd);
+            ret = FindCity(address, out citycd, prefcd);
+            if (ret != "")
+                address = ret;
 
             if (citycd == -1)
                 address = FindCityRyaku(address, out citycd, prefcd);
 
             var list = FindTown(address, citycd);
 
-            var ret = FindPostCode(address, list);
+            var res = FindPostCode(address, list);
 
-            return ret;
+            return res;
         }
 
         protected string FindPref(string address, out int prefcd)
