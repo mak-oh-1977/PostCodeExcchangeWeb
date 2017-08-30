@@ -17,13 +17,11 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("アプリケーション名", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("郵便番号検索", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("ホーム", "Index", "Home")</li>
-                    <li>@Html.ActionLink("アップロード", "Upload", "Home")</li>
-                    <li>@Html.ActionLink("連絡先", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("郵便番号データ入れ替え", "Upload", "Home")</li>
                 </ul>
             </div>
         </div>

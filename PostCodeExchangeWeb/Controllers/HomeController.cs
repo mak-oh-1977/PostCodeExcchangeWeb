@@ -1,54 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
+﻿using PostCodeExchangeWeb.Models;
 using System.Web;
 using System.Web.Mvc;
-using CsvHelper;
-using CsvHelper.Configuration;
-using System.IO;
-using System.Text;
-using PostCodeExchangeWeb.Models;
 
 namespace PostCodeExchangeWeb.Controllers
 {
-
-
     public class HomeController : Controller
     {
-        private PostCode db = new PostCode();
-
         private PostCodeData model = new PostCodeData();
 
-        public class Query
+        public ActionResult Index()
         {
-            public string address { get; set; }
+            return View();
         }
 
-
-
-        public ActionResult Index(Query q)
+        [HttpPost]
+        public ActionResult Index(string address)
         {
-            Debug.WriteLine(q.address);
-
-            if (!string.IsNullOrEmpty(q.address))
-            {
-                using (var context = new PostCode())
-                {
-                    int maxcd = context.pref.Max(x => x.prefcd);
-
-                    // Addした段階ではSql文はDBに発行されない
-                    context.pref.Add(new pref
-                    {
-                        prefcd = maxcd + 1,
-                        name = q.address
-                    });
-
-                    // SaveChangesが呼び出された段階で初めてInsert文が発行される
-                    context.SaveChanges();
-                }
-
-            }
+            ViewBag.res = model.Find(address);
 
             return View();
         }
@@ -66,27 +34,16 @@ namespace PostCodeExchangeWeb.Controllers
             if (uploadFile != null)
             {
                 uploadFile.SaveAs(Server.MapPath("~/uploads/import.csv"));
+
+                model.Import(Server.MapPath("~/uploads/import.csv"));
+
+                ViewBag.Result = "完了しました";
             }
 
             return View();
         }
 
-        [HttpPost]
-        public ActionResult Import()
-        {
-            model.Import(Server.MapPath("~/uploads/import.csv"));
 
-            return View();
-        }
-
-
-        [HttpPost]
-        public ActionResult Find(string address)
-        {
-            ViewBag.res = model.Find(address);
-
-            return View();
-        }
 
     }
 }

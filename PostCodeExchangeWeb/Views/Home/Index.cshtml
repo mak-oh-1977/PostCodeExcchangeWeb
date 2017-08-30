@@ -3,9 +3,9 @@
 }
 
 <div class="jumbotron">
-    <h1>Input address </h1>
+    <h1>住所を入力すると郵便番号が表示されるかも</h1>
 @using (Html.BeginForm(
-                          "Find",      // アクション名
+                          "",      // アクション名
                           "",    // コントローラー名
                           new { id = "address", charset = "utf8" },        // ルートパラメーター
                           FormMethod.Post,                               // HTTP メソッド
@@ -22,6 +22,24 @@
 
 }
     
+</div>
+
+<div class="container">
+    @if (ViewBag.res != null)
+    {
+        <table class="table">
+            @foreach (var item in ViewBag.res)
+            {
+                <tr>
+                    <td>@item.Code</td>
+                    <td>@item.Name</td>
+                </tr>
+            }
+
+        </table>
+    }
+
+
 </div>
 
 

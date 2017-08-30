@@ -17,7 +17,7 @@ namespace PostCodeExchangeWeb.Tests.Controllers
                 // テストデータの追加、テストの実施などを記述する
                 var data = new PostCodeData();
 
-                var res = data.Find("酒田市あきほ町120-1");
+                var res = data.Find("仙台市泉区");
                 Assert.AreEqual(2, res.Count);
             }
         }

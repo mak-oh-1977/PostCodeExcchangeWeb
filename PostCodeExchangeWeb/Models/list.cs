@@ -35,5 +35,8 @@ namespace PostCodeExchangeWeb
 
         [StringLength(50)]
         public string postcode { get; set; }
+
+        [NotMapped]
+        public int jigyousho { get; set; }
     }
 }

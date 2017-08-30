@@ -18,9 +18,8 @@ namespace PostCodeExchangeWeb.Tests.Controllers
             // Arrange
             HomeController controller = new HomeController();
 
-            var q = new HomeController.Query();
             // Act
-            ViewResult result = controller.Index(q) as ViewResult;
+            ViewResult result = controller.Index("") as ViewResult;
 
             // Assert
             Assert.IsNotNull(result);

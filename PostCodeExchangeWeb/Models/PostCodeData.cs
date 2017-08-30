@@ -19,6 +19,7 @@ namespace PostCodeExchangeWeb.Models
             public PostCodeMapper()
             {
                 Map(x => x.prefcd).Index(1);
+                Map(x => x.jigyousho).Index(5);
                 Map(x => x.pref).Index(7);
                 Map(x => x.citycd).Index(2);
                 Map(x => x.city).Index(9);
@@ -55,9 +56,17 @@ namespace PostCodeExchangeWeb.Models
                     foreach (var record in records)
                     {
                         // Addした段階ではSql文はDBに発行されない
-                        context.list.Add(record);
+                        if (record.jigyousho == 0)
+                        {
+                            context.list.Add(record);
 
-                        Debug.WriteLine("{0}/{1}/{2}", record.postcode, record.pref, record.city);
+                            Debug.WriteLine("{0}/{1}/{2}", record.postcode, record.pref, record.city);
+                        }
+                        else
+                        {
+                            Debug.WriteLine("{0}/{1}/{2}", record.postcode, record.pref, record.city);
+
+                        }
                     }
 
 
@@ -95,7 +104,7 @@ namespace PostCodeExchangeWeb.Models
 
             int citycd;
             ret = FindCity(address, out citycd, prefcd);
-            if (ret != "")
+            if (citycd != -1)
                 address = ret;
 
             if (citycd == -1)
@@ -148,6 +157,8 @@ namespace PostCodeExchangeWeb.Models
                     {
                         int cd = x.citycd;
                         int len = x.city1.Length;
+                        if (len > address.Length)
+                            len = address.Length;
                         if (address.Substring(0, len) == x.city1)
                         {
                             retad = address.Substring(len);
@@ -168,6 +179,8 @@ namespace PostCodeExchangeWeb.Models
                     {
                         int cd = x.citycd;
                         int len = x.city1.Length;
+                        if (len > address.Length)
+                            len = address.Length;
                         if (address.Substring(0, len) == x.city1)
                         {
                             retad = address.Substring(len);
@@ -203,6 +216,8 @@ namespace PostCodeExchangeWeb.Models
             {
                 citycd = ret.citycd;
                 int len = ret.city1.Length;
+                if (len > address.Length)
+                    len = address.Length;
                 if (address.Substring(0, len) == ret.city1)
                 {
                     return address.Substring(len);
@@ -226,16 +241,23 @@ namespace PostCodeExchangeWeb.Models
             int maxlen = 0;
             ret.ForEach(x =>
             {
-                int pos = address.IndexOf(x.town);
-                if (pos >= 0 && pos <= minpos)
+                if(address.Length != 0)
                 {
-                    int len = x.town.Length;
-                    if (len > maxlen)
+                    int pos = address.IndexOf(x.town);
+                    if (pos >= 0 && pos <= minpos)
                     {
-                        res.Add((int)x.towncd);
-                        maxlen = len;
-                        minpos = pos;
+                        int len = x.town.Length;
+                        if (len > maxlen)
+                        {
+                            res.Add((int)x.towncd);
+                            maxlen = len;
+                            minpos = pos;
+                        }
                     }
+                }
+                else
+                {
+                    res.Add((int)x.towncd);
                 }
             });
 
@@ -251,7 +273,7 @@ namespace PostCodeExchangeWeb.Models
                     new {
                         Code = x.postcode,
                         Choume = x.choume,
-                        Name = x.touri + x.town + x.choume
+                        Name = x.pref + x.city + x.touri + x.town + x.choume
                     }).ToList();
 
             var ret = new List<PostCodeRes>();
