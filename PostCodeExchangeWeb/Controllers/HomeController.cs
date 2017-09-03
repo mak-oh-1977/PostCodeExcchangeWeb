@@ -33,9 +33,9 @@ namespace PostCodeExchangeWeb.Controllers
         {
             if (uploadFile != null)
             {
-                uploadFile.SaveAs(Server.MapPath("~/uploads/import.csv"));
+                uploadFile.SaveAs(Server.MapPath("~/import.csv"));
 
-                model.Import(Server.MapPath("~/uploads/import.csv"));
+                model.Import(Server.MapPath("~/import.csv"));
 
                 ViewBag.Result = "完了しました";
             }
