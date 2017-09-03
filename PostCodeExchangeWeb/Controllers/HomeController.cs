@@ -1,4 +1,5 @@
 ﻿using PostCodeExchangeWeb.Models;
+using System;
 using System.Web;
 using System.Web.Mvc;
 
@@ -31,19 +32,28 @@ namespace PostCodeExchangeWeb.Controllers
         [HttpPost]
         public ActionResult Upload(HttpPostedFileWrapper uploadFile)
         {
-            if (uploadFile != null)
+            try
             {
-                uploadFile.SaveAs(Server.MapPath("~/import.csv"));
+                if (uploadFile != null)
+                {
+                    uploadFile.SaveAs(Server.MapPath("~/import.csv"));
 
-                model.Import(Server.MapPath("~/import.csv"));
+                    model.Import(Server.MapPath("~/import.csv"));
 
-                ViewBag.Result = "完了しました";
+                    ViewBag.Result = "完了しました";
+                }
+            }catch(Exception e)
+            {
+                ViewBag.Result = e.Message;
             }
 
             return View();
         }
 
-
+        protected override void OnException(ExceptionContext filterContext)
+        {
+            base.OnException(filterContext);
+        }
 
     }
 }
